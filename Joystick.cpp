@@ -9,17 +9,14 @@ Joystick::Joystick(int xPin, int yPin, int switchPin, Stepper& stepperMotor)
 }
 
 void Joystick::debug(){
-  Serial.print("Switch:  ");
-  Serial.print(digitalRead(_switchPin));
-  Serial.print("\tX-axis: ");
-  Serial.print(analogRead(_xPin));
-  Serial.print("\tstep_number: ");
-  Serial.print(_motor.step_number);
-  Serial.print("\n");
+  String msg = "Switch: " + digitalRead(_switchPin);
+  msg += "\tX-axis: " + analogRead(_xPin);
+  msg += "\tstep_number: " + _motor.step_number;
+  Serial.print("debug," + msg);
 }
 
 void Joystick::manualControl(){
-  Serial.println("Entering manual control mode.");
+  Serial.println("debug,Entering manual control mode.");
   delay(1000);
   int x = 512; // zero state
   while (true){
@@ -31,7 +28,7 @@ void Joystick::manualControl(){
       _motor.step(-6);
     }
     if(!digitalRead(_switchPin)){
-      Serial.println("Entering automatic control mode.");
+      Serial.println("debug,Entering automatic control mode.");
       delay(1000);
       return;
     }
