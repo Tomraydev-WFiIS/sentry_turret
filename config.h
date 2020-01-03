@@ -15,5 +15,6 @@ const int echoPin = 6;
 
 // Other
 const int minStep = 6;
+const double maxRange = 4.0;
 
 #endif

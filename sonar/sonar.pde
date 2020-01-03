@@ -14,7 +14,6 @@ int index2=0;
 PFont orcFont;
 
 void setup() {
-  
  size (1920, 1080);
  smooth();
  myPort = new Serial(this,"/dev/ttyACM0", 9600); // starts the serial communication
@@ -41,16 +40,15 @@ void draw() {
 void serialEvent (Serial myPort) { // starts reading data from the Serial Port
   // reads the data from the Serial Port up to the character '\n' and puts it into the String variable "data".
   data = myPort.readStringUntil('\n');
-  print(data);
-  data = data.substring(0,data.length()-1);
-  
-  index1 = data.indexOf(","); // find the character ',' and puts it into the variable "index1"
-  angle= data.substring(0, index1); // read the data from position "0" to position of the variable index1 or thats the value of the angle the Arduino Board sent into the Serial Port
-  distance= data.substring(index1+1, data.length()); // read the data from position "index1" to the end of the data pr thats the value of the distance
-  
-  // converts the String variables into Integer
-  iAngle = int(angle);
-  iDistance = int(distance);
+  System.out.println(data);
+  String list[] = data.split(",");
+  String header = list[0];
+  if(header.equals("data")){
+    iAngle = (int) Double.parseDouble(list[1]) + 90;    
+    iDistance = (int) Double.parseDouble(list[2]);
+  } else if (header.equals("debug")){
+    System.out.println(list[1]);
+  }
 }
 
 void drawRadar() {
@@ -99,7 +97,6 @@ void drawLine() {
 }
 
 void drawText() { // draws the texts on the screen
-  
   pushMatrix();
   if(iDistance>40) {
   noObject = "Out of Range";
@@ -127,22 +124,22 @@ void drawText() { // draws the texts on the screen
   fill(98,245,60);
   translate(961+960*cos(radians(30)),982-960*sin(radians(30)));
   rotate(-radians(-60));
-  text("30°",0,0);
+  text("30'",0,0);
   resetMatrix();
   translate(954+960*cos(radians(60)),984-960*sin(radians(60)));
   rotate(-radians(-30));
-  text("60°",0,0);
+  text("60'",0,0);
   resetMatrix();
   translate(945+960*cos(radians(90)),990-960*sin(radians(90)));
   rotate(radians(0));
-  text("90°",0,0);
+  text("90'",0,0);
   resetMatrix();
   translate(935+960*cos(radians(120)),1003-960*sin(radians(120)));
   rotate(radians(-30));
-  text("120°",0,0);
+  text("120'",0,0);
   resetMatrix();
   translate(940+960*cos(radians(150)),1018-960*sin(radians(150)));
   rotate(radians(-60));
-  text("150°",0,0);
+  text("150'",0,0);
   popMatrix(); 
 }

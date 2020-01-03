@@ -2,10 +2,7 @@
 #include "Joystick.h"
 #include "config.h"
 
-// Motor
 Stepper stepper(STEPS, 8, 10, 9, 11);
-
-// Joystick
 Joystick joystick(A0, A1, switchPin, stepper);
 
 // ******** Functions ********
@@ -69,7 +66,7 @@ double ping(){
   digitalWrite(trigPin, LOW);
   
   // Reads the echoPin, returns the sound wave travel time in microseconds
-  int timeout = 4.0 * 2 / 340.0 * 1e6; // [us] 23529 = 4m both ways
+  int timeout = maxRange * 2 / 340.0 * 1e6; // [us]
   duration = pulseIn(echoPin, HIGH, timeout); // [us]
   if(duration == 0) {duration = timeout;}
   
