@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This script is not used in the main project"""
 import serial
 import time
 

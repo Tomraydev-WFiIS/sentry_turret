@@ -21,7 +21,6 @@ int sgn(int val){
 void stepAndScan(int steps){
   double distance;
   double angle;
-  steps = steps - steps % minStep;
   for(int i = 0; i < abs(steps); i += minStep){
     stepper.step(sgn(steps)*minStep);
     distance = ping();
@@ -32,6 +31,7 @@ void stepAndScan(int steps){
 
 void observe(double angleOfView){
   int range = angleToStep(angleOfView)/2.0;
+  range = range - (range % minStep);
   
   // move half left
   stepAndScan(range);
@@ -49,7 +49,7 @@ void observe(double angleOfView){
   stepAndScan(range);
 //  Serial.print(it);Serial.print("\tstep_number: ");Serial.println(stepper.step_number); // debug
 //  Serial.print("\n"); // debug
-  delay(2000);
+  delay(1000);
 }
 
 double ping(){
@@ -89,5 +89,5 @@ void loop() {
   if (!digitalRead(switchPin)){
     joystick.manualControl();  
   }
-  observe(90);
+  observe(150);
 }
